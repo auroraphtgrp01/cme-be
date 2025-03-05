@@ -5,11 +5,13 @@ import { CoreModule } from '@/core/core.module';
 import { UserModule } from '@/modules/users/users.module';
 import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionsFilter } from '@/core/errors/global-exception.filter';
+import { CategoryModule } from '@/modules/category/category.module';
 // Zone Import
 
 const importVar = [
   CoreModule,
   UserModule,
+  CategoryModule
 ];
 
 const providers = [
@@ -24,4 +26,4 @@ const providers = [
   controllers: [AppController],
   providers: [AppService, ...providers],
 })
-export class AppModule {}
+export class AppModule { }
