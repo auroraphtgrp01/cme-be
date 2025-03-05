@@ -1,0 +1,108 @@
+<div style="max-width:600px; margin:0 auto; font-family:Arial,sans-serif">
+    <!-- Header Banner -->
+    <div
+        style="background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); padding:32px 24px; border-radius:16px 16px 0 0; text-align:center; margin-bottom:32px">
+        <h1 style="color:white; margin:0 0 8px 0; font-size:24px">Xác thực tài
+            khoản 🔐</h1>
+        <p style="color:rgba(255,255,255,0.9); margin:0; font-size:16px">
+            Chỉ một bước nữa để hoàn tất đăng ký
+        </p>
+    </div>
+
+    <!-- Welcome Message -->
+    <div style="padding:0 24px; margin-bottom:32px">
+        <p style="font-size:16px; color:#334155; line-height:1.6">
+            Xin chào <strong style="color:#1e40af">{{full_name}}</strong>,
+        </p>
+        <p style="font-size:16px; color:#334155; line-height:1.6">
+            Cảm ơn bạn đã đăng ký tài khoản tại <strong>hoclientuc.vn</strong>.
+            Để bảo mật tài khoản, vui lòng xác thực email của bạn bằng cách nhấp
+            vào nút bên dưới.
+        </p>
+    </div>
+
+    <!-- Account Information -->
+    <div
+        style="background:#f8fafc; border-radius:12px; padding:24px; margin:0 24px 32px 24px; border:1px solid #e2e8f0">
+        <h2
+            style="margin:0 0 20px 0; color:#1e40af; font-size:18px; display:flex; align-items:center">
+            <span style="margin-right:8px">📋</span> Thông tin tài khoản
+        </h2>
+        <div style="display:grid; gap:16px">
+            <div
+                style="display:flex; justify-content:space-between; padding-bottom:12px; border-bottom:1px dashed #e2e8f0">
+                <span style="color:#64748b">Email: </span>
+                <strong style="color:#334155">{{email}}</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between">
+                <span style="color:#64748b">Thời gian đăng ký</span>
+                <strong style="color:#334155">{{registration_date}}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Button -->
+    <div style="text-align:center; padding:0 24px; margin-bottom:32px">
+        <a href="{{verification_url}}" style="
+      display:inline-block;
+      background:linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color:white;
+      padding:16px 32px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:bold;
+      font-size:16px;
+      box-shadow:0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition:transform 0.2s ease;
+    ">
+            ✉️ Xác thực email ngay
+        </a>
+        <p style="margin-top:16px; font-size:14px; color:#64748b">
+            Liên kết xác thực này sẽ hết hạn sau 24 giờ
+        </p>
+    </div>
+
+    <!-- Alternative Verification -->
+    <div
+        style="background:#f1f5f9; border-radius:12px; padding:24px; margin:0 24px 32px 24px">
+        <p style="margin:0 0 12px 0; color:#334155; font-size:14px">
+            Nếu nút xác thực không hoạt động, vui lòng sao chép và dán đường
+            link sau vào trình duyệt:
+        </p>
+        <p
+            style="margin:0; padding:12px; background:white; border-radius:6px; word-break:break-all; font-size:14px; color:#64748b; border:1px solid #e2e8f0">
+            {{verification_url}}
+        </p>
+    </div>
+
+    <!-- Security Notice -->
+    <div style="padding:0 24px; margin-bottom:32px">
+        <p style="font-size:14px; color:#64748b; line-height:1.6">
+            <strong style="color:#475569">🔒 Lưu ý bảo mật:</strong> Nếu bạn
+            không thực hiện yêu cầu này, vui lòng bỏ qua email hoặc liên hệ với
+            chúng tôi để được hỗ trợ.
+        </p>
+    </div>
+
+    <!-- Support Section -->
+    <div
+        style="background:#f1f5f9; border-radius:12px; padding:24px; margin:0 24px 32px 24px; text-align:center">
+        <h3 style="margin:0 0 12px 0; color:#1e40af; font-size:16px">Bạn cần hỗ
+            trợ?</h3>
+        <p style="margin:0; color:#64748b; font-size:14px; line-height:1.6">
+            Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn 24/7.<br>
+            Email: <a href="mailto:support@hoclientuc.vn"
+                style="color:#3b82f6; text-decoration:none">support@hoclientuc.vn</a>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <div
+        style="text-align:center; padding:32px 24px; border-top:1px solid #e2e8f0">
+        <p style="margin:0; color:#94a3b8; font-size:14px">
+            © 2024 CME - Đào tạo Y khoa Liên tục<br>
+            <a href="https://hoclientuc.vn"
+                style="color:#3b82f6; text-decoration:none">hoclientuc.vn</a>
+        </p>
+    </div>
+</div>

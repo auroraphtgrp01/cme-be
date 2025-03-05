@@ -1,15 +1,19 @@
-import { EUserRoles } from '@/core/auth/dto/create-auth.dto';
-import { Type } from 'class-transformer';
-import {
-  IsBoolean,
-  IsBooleanString,
-  IsDate,
-  IsDateString,
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+export interface ICreateMediaDto {
+  path: string
+  courseId?: string
+  lessonId?: string
+  avatarUserId?: string
+  seminarId?: string
+  mimeTypes: EUploadFileType
+  types?: string
+  mediaId?: string
+}
+
+export enum EUploadFileType {
+  IMAGE = 'IMAGES',
+  VIDEO = 'VIDEOS',
+  AUDIO = 'AUDIOS',
+  DOCUMENT = 'DOCUMENTS',
+  SUBTITLE = 'SUBTITLES',
+  MARKDOWN = 'MARKDOWNS'
+}

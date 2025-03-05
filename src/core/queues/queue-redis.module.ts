@@ -1,33 +1,21 @@
-import { Module } from '@nestjs/common';
-import { BullModule } from '@nestjs/bullmq';
-import { QueueRedisService } from '@/core/queues/queue-redis.service';
-import {
-  QueueProcessorGetDistance,
-  QueueProcessorGetDistanceBetweenLocation,
-} from '@/core/queues/queue-processor.service';
+import { Module } from '@nestjs/common'
+import { BullModule } from '@nestjs/bullmq'
+import { QueueRedisService } from '@/core/queues/queue-redis.service'
+import { QueueProcessorSendEmailService } from '@/core/queues/queue-processor.service'
+import { MailService } from '@/modules/mail/mail.service'
+import { MailModule } from '@/modules/mail/mail.module'
 
 @Module({
   imports: [
+    MailModule,
     BullModule.registerQueue(
       {
-        name: 'getDistance',
-        prefix: 'BullQueue_getDistance',
+        name: 'sendEmail',
+        prefix: 'BullQueue_sendEmail'
       },
-      {
-        name: 'getDistanceBetweenLocation',
-        prefix: 'BullQueue_getDistanceBetweenLocation',
-      }
     ),
   ],
-  providers: [
-    QueueRedisService,
-    QueueProcessorGetDistance,
-    QueueProcessorGetDistanceBetweenLocation,
-  ],
-  exports: [
-    QueueRedisService,
-    QueueProcessorGetDistance,
-    QueueProcessorGetDistanceBetweenLocation,
-  ],
+  providers: [QueueRedisService, QueueProcessorSendEmailService],
+  exports: [QueueRedisService, QueueProcessorSendEmailService]
 })
-export class QueueRedisModule {}
+export class QueueRedisModule { }

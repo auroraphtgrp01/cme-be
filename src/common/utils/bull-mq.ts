@@ -7,10 +7,9 @@ import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 export function BullMQSetup(app: INestApplication): void {
   const serverAdapter = new ExpressAdapter();
   serverAdapter.setBasePath('/bull-admin');
-  const aQueue = app.get<Queue>(`BullQueue_getDistance`);
-  const bQueue = app.get<Queue>(`BullQueue_getDistanceBetweenLocation`);
+  const aQueue = app.get<Queue>(`BullQueue_sendEmail`);
   createBullBoard({
-    queues: [new BullMQAdapter(aQueue), new BullMQAdapter(bQueue)],
+    queues: [new BullMQAdapter(aQueue)],
     serverAdapter,
   });
   app.use('/bull-admin', serverAdapter.getRouter());

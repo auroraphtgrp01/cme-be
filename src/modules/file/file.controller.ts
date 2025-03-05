@@ -1,14 +1,17 @@
-import { UserInfo } from '@/common/decorators/users.decorator';
-import { ChangePasswordDto } from '@/core/auth/dto/create-auth.dto';
-import { FileService } from '@/modules/file/file.service';
-import { LessonService } from '@/modules/lesson/lesson.service';
-import { RegistrationService } from '@/modules/registration/registration.service';
-import { RegisterUserDto, UpdateUserDto, ValidateUserDto } from '@/modules/users/dto/user.dto';
-import { IUserFromToken } from '@/modules/users/user.i';
-import { UserService } from '@/modules/users/users.service';
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
-
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
+import { FileService } from './file.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { UploadFileDto } from '@/modules/file/dto/uploadfile.dto';
 @Controller('file')
 export class FileController {
   constructor(private readonly fileService: FileService) { }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file', {
+    limits: { fileSize: 500 * 1024 * 1024 }
+  }))
+  async uploadFile(@Body() uploadFileDto: UploadFileDto, @UploadedFile() file: Express.Multer.File) {
+    return this.fileService.uploadFile(uploadFileDto, file);
+  }
 }
