@@ -1,21 +1,12 @@
 import { DatabaseService } from '@/core/database/database.service';
-import { comparePassword, hashPassword } from '@/common/utils/hashPassword';
 
 import {
   Injectable,
   Logger,
   NotFoundException,
-  OnModuleInit,
-  UnprocessableEntityException,
 } from '@nestjs/common';
-import { RegisterUserDto, UpdateUserDto, ValidateUserDto } from '@/modules/users/dto/user.dto';
 import { IUserFromToken } from '@/modules/users/user.i';
-import {
-  EUserRoles,
-  RegisterUserNormal,
-} from '@/core/auth/dto/create-auth.dto';
 import { CreateCategoryDto, ECategoryType, GetCategoryByType, UpdateCategoryDto } from '@/modules/category/dto/category.dto';
-import { IExtendedCourse } from '@/modules/category/category.i';
 import { countStudentOfCourse } from '@/modules/category/utils/countStudentsOfCourse';
 @Injectable()
 export class CategoryService {
