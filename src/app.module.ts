@@ -15,6 +15,8 @@ import { QuizModule } from '@/modules/quiz/quiz.module';
 import { QuestionModule } from '@/modules/question/question.module';
 import { LessonModuleModule } from '@/modules/lesson-module/lesson-module.module';
 import { RegistrationModule } from '@/modules/registration/registration.module';
+import { FileModule } from '@/modules/file/file.module';
+import { MediaModule } from '@/modules/media/media.module';
 // Zone Import
 
 const importVar = [
@@ -30,6 +32,8 @@ const importVar = [
   SeminarModule,
   LessonModuleModule,
   RegistrationModule,
+  FileModule,
+  MediaModule
 ];
 
 const providers = [
