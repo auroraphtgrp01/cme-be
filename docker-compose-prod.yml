@@ -1,0 +1,52 @@
+networks:
+  uniko-network:
+    external: true
+    name: uniko-network
+
+services:
+  tracy-be:
+    image: auroraphtgrp/tracy-be:latest
+    container_name: tracy-be
+    networks:
+      - uniko-network
+    ports:
+      - "9912:3333"
+    command: sh -c "npx prisma migrate deploy && node dist/main.js"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-5439-uniko:5432/tracy-schedule?schema=public
+      - BACKEND_PORT=3333
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_USER=codevjp001@gmail.com
+      - MAIL_PASSWORD=qurr ulsq esyl zhwb
+      - JWT_ACCESS_TOKEN_SECRET_KEY=1231323123213213
+      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=10d
+      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=10d
+      - JWT_REFRESH_TOKEN_SECRET_KEY=123123123123123
+      - JWT_FORGOT_PASSWORD_TOKEN_SECRET_KEY=123123123123
+      - JWT_FORGOT_PASSWORD_TOKEN_EXPIRATION_TIME=10d
+      - JWT_ACCEPTED_TOKEN_SECRET_KEY=123123123123
+      - JWT_ACCEPTED_TOKEN_EXPIRATION_TIME=3d
+      - JWT_VERIFY_EMAIL_TOKEN_SECRET_KEY=1231233
+      - JWT_VERIFY_EMAIL_TOKEN_EXPIRATION_TIME=10d
+      - REDIS_HOST=redis-6444-uniko
+      - REDIS_PORT=6379
+      - TTL=60
+      - CACHE_MAX=1000
+      - REDIS_PASSWORD=redis
+
+  tracy-fe:
+    image: auroraphtgrp/tracy-fe:latest
+    container_name: tracy-fe
+    networks:
+      - uniko-network
+    ports:
+      - '9911:3000'
+
+  tracy-scheduler:
+    image: auroraphtgrp/tracy-schedule:latest
+    ports:
+      - "9910:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@195.35.22.192:5439/tracy-schedule?schema=public
+    command: bash -c "prisma db pull && prisma generate && uvicorn main:app --host 0.0.0.0 --port 8000"

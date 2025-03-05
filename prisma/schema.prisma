@@ -1,0 +1,688 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String           @id @default(uuid())
+  profession             String?
+  full_name              String?
+  date_of_birth          DateTime?
+  gender                 String?
+  license_number         String? //cccd
+  specialization         String? // hoc van
+  placeOfBirth           String? // noi sinh
+  placeOfGraduation      String? // noi tn
+  yearOfGraduation       String? // nam tn
+  highestDegree          String? // bang cap cao nhat
+  experience             String?
+  roles                  UserRole         @default(USER)
+  workplace              String?
+  password               String
+  status                 UserStatus       @default(UNVERIFY)
+  phone_number           String?          @unique
+  address                String?
+  isRegisteredWithGoogle Boolean?         @default(false)
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  createdBy              String?
+  updatedBy              Json?
+  deletedAt              DateTime?
+  deletedBy              Json?
+  forget_password_token  String?
+  refresh_token          String?
+  email_verify_token     String?
+  email                  String           @unique
+  picture                String?
+  registrations          Registration[]
+  comments               Comment[]
+  questions              Question[]
+  courseProgresses       CourseProgress[]
+  invoices               Invoice[]
+
+  meetings             Meetings[]
+  participatedMeetings MeetingParticipant[]
+
+  testHistories           TestHistory[]
+  categoriesCreated       Category[]       @relation("CreatedByRelation")
+  categoriesUpdated       Category[]       @relation("UpdatedByRelation")
+  categoriesDeleted       Category[]       @relation("DeletedByRelation")
+  coursesCreated          Course[]         @relation("CourseCreatedByRelation")
+  coursesUpdated          Course[]         @relation("CourseUpdatedByRelation")
+  coursesDeleted          Course[]         @relation("CourseDeletedByRelation")
+  seminarsCreated         Seminar[]        @relation("SeminarCreatedByRelation")
+  seminarsUpdated         Seminar[]        @relation("SeminarUpdatedByRelation")
+  seminarsDeleted         Seminar[]        @relation("SeminarDeletedByRelation")
+  lessonsCreated          Lesson[]         @relation("LessonCreatedByRelation")
+  lessonsUpdated          Lesson[]         @relation("LessonUpdatedByRelation")
+  lessonsDeleted          Lesson[]         @relation("LessonDeletedByRelation")
+  registrationsCreated    Registration[]   @relation("RegistrationCreatedByRelation")
+  registrationsUpdated    Registration[]   @relation("RegistrationUpdatedByRelation")
+  registrationsDeleted    Registration[]   @relation("RegistrationDeletedByRelation")
+  commentsCreated         Comment[]        @relation("CommentCreatedByRelation")
+  commentsUpdated         Comment[]        @relation("CommentUpdatedByRelation")
+  commentsDeleted         Comment[]        @relation("CommentDeletedByRelation")
+  questionsCreated        Question[]       @relation("QuestionCreatedByRelation")
+  questionsUpdated        Question[]       @relation("QuestionUpdatedByRelation")
+  questionsDeleted        Question[]       @relation("QuestionDeletedByRelation")
+  testsCreated            Test[]           @relation("TestCreatedByRelation")
+  testsUpdated            Test[]           @relation("TestUpdatedByRelation")
+  testsDeleted            Test[]           @relation("TestDeletedByRelation")
+  testQuestionsCreated    TestQuestion[]   @relation("TestQuestionCreatedByRelation")
+  testQuestionsUpdated    TestQuestion[]   @relation("TestQuestionUpdatedByRelation")
+  testQuestionsDeleted    TestQuestion[]   @relation("TestQuestionDeletedByRelation")
+  testOptionsCreated      TestOption[]     @relation("TestOptionCreatedByRelation")
+  testOptionsUpdated      TestOption[]     @relation("TestOptionUpdatedByRelation")
+  testOptionsDeleted      TestOption[]     @relation("TestOptionDeletedByRelation")
+  courseProgressesCreated CourseProgress[] @relation("CourseProgressCreatedByRelation")
+  courseProgressesUpdated CourseProgress[] @relation("CourseProgressUpdatedByRelation")
+  courseProgressesDeleted CourseProgress[] @relation("CourseProgressDeletedByRelation")
+  invoicesCreated         Invoice[]        @relation("InvoiceCreatedByRelation")
+  invoicesUpdated         Invoice[]        @relation("InvoiceUpdatedByRelation")
+  invoicesDeleted         Invoice[]        @relation("InvoiceDeletedByRelation")
+  mediasCreated           Media[]          @relation("MediaCreatedByRelation")
+  avatar                  Media[]          @relation("AvatarUserRelation")
+  mediasUpdated           Media[]          @relation("MediaUpdatedByRelation")
+  mediasDeleted           Media[]          @relation("MediaDeletedByRelation")
+  testHistoriesCreated    TestHistory[]    @relation("TestHistoryCreatedByRelation")
+  testHistoriesUpdated    TestHistory[]    @relation("TestHistoryUpdatedByRelation")
+  testHistoriesDeleted    TestHistory[]    @relation("TestHistoryDeletedByRelation")
+  lessonModuleCreated     LessonModule[]   @relation("LessonModuleCreatedByRelation")
+  lessonModuleUpdated     LessonModule[]   @relation("LessonModuleUpdatedByRelation")
+  lessonModuleDeleted     LessonModule[]   @relation("LessonModuleDeletedByRelation")
+  quizCreated             Quiz[]           @relation("quizCreatedByRelation")
+  quizUpdated             Quiz[]           @relation("quizUpdatedByRelation")
+  quizDeleted             Quiz[]           @relation("quizDeletedByRelation")
+  questionQuizCreated     QuestionQuiz[]   @relation("questionQuizCreatedByRelation")
+  questionQuizUpdated     QuestionQuiz[]   @relation("questionQuizUpdatedByRelation")
+  questionQuizDeleted     QuestionQuiz[]   @relation("questionQuizDeletedByRelation")
+
+  meetingsCreated Meetings[] @relation("MeetingsCreatedByRelation")
+  meetingsUpdated Meetings[] @relation("MeetingsUpdatedByRelation")
+  meetingsDeleted Meetings[] @relation("MeetingsDeletedByRelation")
+
+  ratingCreatedByRelation Rating[]     @relation("RatingCreatedByRelation")
+  ratingUpdatedByRelation Rating[]     @relation("RatingUpdatedByRelation")
+  ratingDeletedByRelation Rating[]     @relation("RatingDeletedByRelation")
+  ratingExpert            Rating[]     @relation("RatingExpert")
+  Rating                  Rating[]
+  Order                   Order[]
+  CourseUser              CourseUser[]
+}
+
+model MeetingParticipant {
+  id        String            @id @default(uuid())
+  meeting   Meetings          @relation(fields: [meetingId], references: [id])
+  meetingId String
+  user      User              @relation(fields: [userId], references: [id])
+  userId    String
+  join_as   String
+  leftAt    DateTime?
+  status    ParticipantStatus @default(JOINED)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+model Meetings {
+  id               String               @id @default(uuid())
+  name             String               @unique
+  description      String
+  beginTime        DateTime
+  endTime          DateTime
+  duration         Int                  @default(0)
+  User             User?                @relation(fields: [userId], references: [id])
+  userId           String?
+  room_enabled     Boolean
+  roomName         String
+  roomOwner        String
+  participantCount Int
+  participants     MeetingParticipant[]
+  createdAt        DateTime             @default(now())
+  createdBy        String?
+  createdByUser    User?                @relation("MeetingsCreatedByRelation", fields: [createdBy], references: [id], map: "Meetings_CreatedBy_fkey")
+  updatedAt        DateTime             @updatedAt
+  updatedBy        String?
+  updatedByUser    User?                @relation("MeetingsUpdatedByRelation", fields: [updatedBy], references: [id], map: "Meetings_UpdatedBy_fkey")
+  deletedAt        DateTime?
+  deletedBy        String?
+  deletedByUser    User?                @relation("MeetingsDeletedByRelation", fields: [deletedBy], references: [id], map: "Meetings_DeletedBy_fkey")
+}
+
+model Course {
+  id                    String           @id @default(uuid())
+  normalizedTitle       String?
+  normalizedDescription String?
+  title                 String
+  description           String
+  status                Boolean          @default(true)
+  categoryId            String
+  category              Category         @relation(fields: [categoryId], references: [id])
+  registrations         Registration[]
+  comments              Comment[]
+  thumbnail             String?
+  totalTime             String
+  totalStudents         String?          @default("0")
+  rate                  String?
+  price                 Float            @default(0)
+  discount              Float            @default(0)
+  tests                 Test[]
+  createdAt             DateTime         @default(now())
+  createdBy             String?
+  createdByUser         User?            @relation("CourseCreatedByRelation", fields: [createdBy], references: [id], map: "Course_CreatedBy_fkey")
+  updatedAt             DateTime         @updatedAt
+  updatedBy             String?
+  updatedByUser         User?            @relation("CourseUpdatedByRelation", fields: [updatedBy], references: [id], map: "Course_UpdatedBy_fkey")
+  deletedAt             DateTime?
+  deletedBy             String?
+  deletedByUser         User?            @relation("CourseDeletedByRelation", fields: [deletedBy], references: [id], map: "Course_DeletedBy_fkey")
+  questions             Question[]
+  courseProgress        CourseProgress[]
+  // payments       Payment[]
+  invoices              Invoice[]
+  medias                Media[]
+  testHistories         TestHistory[]
+  LessonModule          LessonModule[]
+  Rating                Rating[]
+  Order                 Order[]
+  CourseUser            CourseUser[]
+
+  @@index([normalizedTitle])
+  @@index([normalizedDescription])
+}
+
+model Seminar {
+  id                    String         @id @default(uuid())
+  title                 String
+  description           String
+  normalizedTitle       String?
+  normalizedDescription String?
+  status                Boolean        @default(true)
+  content               Json?
+  categoryId            String
+  category              Category       @relation(fields: [categoryId], references: [id])
+  registrations         Registration[]
+  comments              Comment[]
+  createdAt             DateTime       @default(now())
+  createdBy             String?
+  createdByUser         User?          @relation("SeminarCreatedByRelation", fields: [createdBy], references: [id], map: "Seminar_CreatedBy_fkey")
+  updatedAt             DateTime       @updatedAt
+  updatedBy             String?
+  updatedByUser         User?          @relation("SeminarUpdatedByRelation", fields: [updatedBy], references: [id], map: "Seminar_UpdatedBy_fkey")
+  deletedAt             DateTime?
+  deletedBy             String?
+  deletedByUser         User?          @relation("SeminarDeletedByRelation", fields: [deletedBy], references: [id], map: "Seminar_DeletedBy_fkey")
+  questions             Question[]
+  // payments      Payment[]
+  invoices              Invoice[]
+  medias                Media[]
+  Rating                Rating[]
+
+  @@index([normalizedTitle])
+  @@index([normalizedDescription])
+}
+
+model Lesson {
+  id             String           @id @default(uuid())
+  title          String
+  content        String
+  description    String?
+  duration       Int?
+  status         Boolean          @default(true)
+  index          Int?
+  order          Int?
+  unlockTime     Int?             @default(0)
+  quiz           Quiz[]
+  medias         Media[]
+  createdAt      DateTime         @default(now())
+  createdBy      String?
+  createdByUser  User?            @relation("LessonCreatedByRelation", fields: [createdBy], references: [id], map: "Lesson_CreatedBy_fkey")
+  updatedAt      DateTime         @updatedAt
+  updatedBy      String?
+  updatedByUser  User?            @relation("LessonUpdatedByRelation", fields: [updatedBy], references: [id], map: "Lesson_UpdatedBy_fkey")
+  deletedAt      DateTime?
+  deletedBy      String?
+  deletedByUser  User?            @relation("LessonDeletedByRelation", fields: [deletedBy], references: [id], map: "Lesson_DeletedBy_fkey")
+  LessonModule   LessonModule?    @relation(fields: [lessonModuleId], references: [id])
+  lessonModuleId String?
+  Question       Question[]
+  CourseProgress CourseProgress[]
+}
+
+model Quiz {
+  id            String         @id @default(uuid())
+  title         String
+  description   String?
+  lessonId      String
+  lesson        Lesson         @relation(fields: [lessonId], references: [id])
+  questions     QuestionQuiz[]
+  createdAt     DateTime       @default(now())
+  createdBy     String?
+  createdByUser User?          @relation("quizCreatedByRelation", fields: [createdBy], references: [id], map: "Quiz_CreatedBy_fkey")
+  updatedAt     DateTime       @updatedAt
+  updatedBy     String?
+  updatedByUser User?          @relation("quizUpdatedByRelation", fields: [updatedBy], references: [id], map: "Quiz_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?          @relation("quizDeletedByRelation", fields: [deletedBy], references: [id], map: "Quiz_DeletedBy_fkey")
+}
+
+model QuestionQuiz {
+  id            String    @id @default(uuid())
+  content       String
+  quizId        String
+  quiz          Quiz      @relation(fields: [quizId], references: [id])
+  options       Json[]
+  correctOption String?
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  createdByUser User?     @relation("questionQuizCreatedByRelation", fields: [createdBy], references: [id], map: "QuestionQuiz_CreatedBy_fkey")
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  updatedByUser User?     @relation("questionQuizUpdatedByRelation", fields: [updatedBy], references: [id], map: "QuestionQuiz_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?     @relation("questionQuizDeletedByRelation", fields: [deletedBy], references: [id], map: "QuestionQuiz_DeletedBy_fkey")
+}
+
+model LessonModule {
+  id            String         @id @default(uuid())
+  title         String
+  parentId      String?
+  status        Boolean        @default(true)
+  index         Int?           @default(0)
+  unlockTime    Int?           @default(0)
+  description   String?
+  totalLessons  Int?
+  parent        LessonModule?  @relation("LessonModuleParent", fields: [parentId], references: [id])
+  children      LessonModule[] @relation("LessonModuleParent")
+  lessonId      String?
+  lessons       Lesson[]
+  createdAt     DateTime       @default(now())
+  createdBy     String?
+  createdByUser User?          @relation("LessonModuleCreatedByRelation", fields: [createdBy], references: [id], map: "LessonModule_CreatedBy_fkey")
+  updatedAt     DateTime       @updatedAt
+  updatedBy     String?
+  updatedByUser User?          @relation("LessonModuleUpdatedByRelation", fields: [updatedBy], references: [id], map: "LessonModule_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?          @relation("LessonModuleDeletedByRelation", fields: [deletedBy], references: [id], map: "LessonModule_DeletedBy_fkey")
+  Course        Course?        @relation(fields: [courseId], references: [id])
+  courseId      String?
+}
+
+model Registration {
+  id            String             @id @default(uuid())
+  userId        String
+  courseId      String?
+  seminarId     String?
+  type          RegistrationType
+  status        RegistrationStatus @default(NOTYETPAID)
+  user          User               @relation(fields: [userId], references: [id])
+  course        Course?            @relation(fields: [courseId], references: [id])
+  seminar       Seminar?           @relation(fields: [seminarId], references: [id])
+  createdAt     DateTime           @default(now())
+  createdBy     String?
+  createdByUser User?              @relation("RegistrationCreatedByRelation", fields: [createdBy], references: [id], map: "Registration_CreatedBy_fkey")
+  updatedAt     DateTime           @updatedAt
+  updatedBy     String?
+  updatedByUser User?              @relation("RegistrationUpdatedByRelation", fields: [updatedBy], references: [id], map: "Registration_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?              @relation("RegistrationDeletedByRelation", fields: [deletedBy], references: [id], map: "Registration_DeletedBy_fkey")
+}
+
+model Comment {
+  id            String    @id @default(uuid())
+  content       String
+  courseId      String?
+  seminarId     String?
+  parentId      String?
+  parent        Comment?  @relation("CommentParent", fields: [parentId], references: [id])
+  children      Comment[] @relation("CommentParent")
+  course        Course?   @relation(fields: [courseId], references: [id])
+  seminar       Seminar?  @relation(fields: [seminarId], references: [id])
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  createdByUser User?     @relation("CommentCreatedByRelation", fields: [createdBy], references: [id], map: "Comment_CreatedBy_fkey")
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  updatedByUser User?     @relation("CommentUpdatedByRelation", fields: [updatedBy], references: [id], map: "Comment_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?     @relation("CommentDeletedByRelation", fields: [deletedBy], references: [id], map: "Comment_DeletedBy_fkey")
+  User          User?     @relation(fields: [userId], references: [id])
+  userId        String?
+}
+
+model Question {
+  id            String     @id @default(uuid())
+  content       String
+  seminarId     String?
+  lessonId      String?
+  status        Boolean    @default(true)
+  parentId      String?
+  parent        Question?  @relation("QuestionParent", fields: [parentId], references: [id])
+  children      Question[] @relation("QuestionParent")
+  lesson        Lesson?    @relation(fields: [lessonId], references: [id])
+  seminar       Seminar?   @relation(fields: [seminarId], references: [id])
+  isPublic      Boolean    @default(true)
+  createdAt     DateTime   @default(now())
+  createdBy     String?
+  createdByUser User?      @relation("QuestionCreatedByRelation", fields: [createdBy], references: [id], map: "Question_CreatedBy_fkey")
+  updatedAt     DateTime   @updatedAt
+  updatedBy     String?
+  updatedByUser User?      @relation("QuestionUpdatedByRelation", fields: [updatedBy], references: [id], map: "Question_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?      @relation("QuestionDeletedByRelation", fields: [deletedBy], references: [id], map: "Question_DeletedBy_fkey")
+  Course        Course?    @relation(fields: [courseId], references: [id])
+  courseId      String?
+  User          User?      @relation(fields: [userId], references: [id])
+  userId        String?
+}
+
+model Test {
+  id            String         @id @default(uuid())
+  courseId      String
+  course        Course         @relation(fields: [courseId], references: [id])
+  questions     TestQuestion[]
+  createdAt     DateTime       @default(now())
+  createdBy     String?
+  createdByUser User?          @relation("TestCreatedByRelation", fields: [createdBy], references: [id], map: "Test_CreatedBy_fkey")
+  updatedAt     DateTime       @updatedAt
+  updatedBy     String?
+  updatedByUser User?          @relation("TestUpdatedByRelation", fields: [updatedBy], references: [id], map: "Test_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?          @relation("TestDeletedByRelation", fields: [deletedBy], references: [id], map: "Test_DeletedBy_fkey")
+}
+
+model TestQuestion {
+  id              String       @id @default(uuid())
+  content         String
+  type            QuestionType
+  options         TestOption[]
+  correctOptionId String
+  testId          String
+  test            Test         @relation(fields: [testId], references: [id])
+  createdAt       DateTime     @default(now())
+  createdBy       String?
+  createdByUser   User?        @relation("TestQuestionCreatedByRelation", fields: [createdBy], references: [id], map: "TestQuestion_CreatedBy_fkey")
+  updatedAt       DateTime     @updatedAt
+  updatedBy       String?
+  updatedByUser   User?        @relation("TestQuestionUpdatedByRelation", fields: [updatedBy], references: [id], map: "TestQuestion_UpdatedBy_fkey")
+  deletedAt       DateTime?
+  deletedBy       String?
+  deletedByUser   User?        @relation("TestQuestionDeletedByRelation", fields: [deletedBy], references: [id], map: "TestQuestion_DeletedBy_fkey")
+}
+
+model TestOption {
+  id            String       @id @default(uuid())
+  content       String
+  questionId    String
+  question      TestQuestion @relation(fields: [questionId], references: [id])
+  createdAt     DateTime     @default(now())
+  createdBy     String?
+  createdByUser User?        @relation("TestOptionCreatedByRelation", fields: [createdBy], references: [id], map: "TestOption_CreatedBy_fkey")
+  updatedAt     DateTime     @updatedAt
+  updatedBy     String?
+  updatedByUser User?        @relation("TestOptionUpdatedByRelation", fields: [updatedBy], references: [id], map: "TestOption_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?        @relation("TestOptionDeletedByRelation", fields: [deletedBy], references: [id], map: "TestOption_DeletedBy_fkey")
+}
+
+model CourseProgress {
+  id            String              @id @default(uuid())
+  userId        String
+  lessonId      String?
+  lesson        Lesson?             @relation(fields: [lessonId], references: [id])
+  time          String?
+  status        CourseProgresStatus @default(NOTSTARTED)
+  user          User                @relation(fields: [userId], references: [id])
+  createdAt     DateTime            @default(now())
+  createdBy     String?
+  createdByUser User?               @relation("CourseProgressCreatedByRelation", fields: [createdBy], references: [id], map: "CourseProgress_CreatedBy_fkey")
+  updatedAt     DateTime            @updatedAt
+  updatedBy     String?
+  updatedByUser User?               @relation("CourseProgressUpdatedByRelation", fields: [updatedBy], references: [id], map: "CourseProgress_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?               @relation("CourseProgressDeletedByRelation", fields: [deletedBy], references: [id], map: "CourseProgress_DeletedBy_fkey")
+  Course        Course?             @relation(fields: [courseId], references: [id])
+  courseId      String?
+}
+
+model CourseUser {
+  id            String                   @id @default(uuid())
+  courseId      String
+  userId        String
+  processStatus ProcessStatusCertificate @default(PENDING)
+  course        Course                   @relation(fields: [courseId], references: [id])
+  user          User                     @relation(fields: [userId], references: [id])
+  status        CourseUserStatus         @default(PROCESSING)
+  timeComplete  DateTime?
+  timeRegister  DateTime                 @default(now())
+}
+
+model Invoice {
+  id            String    @id @default(uuid())
+  userId        String
+  courseId      String?
+  seminarId     String?
+  amount        Float
+  user          User      @relation(fields: [userId], references: [id])
+  course        Course?   @relation(fields: [courseId], references: [id])
+  seminar       Seminar?  @relation(fields: [seminarId], references: [id])
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  createdByUser User?     @relation("InvoiceCreatedByRelation", fields: [createdBy], references: [id], map: "Invoice_CreatedBy_fkey")
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  updatedByUser User?     @relation("InvoiceUpdatedByRelation", fields: [updatedBy], references: [id], map: "Invoice_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?     @relation("InvoiceDeletedByRelation", fields: [deletedBy], references: [id], map: "Invoice_DeletedBy_fkey")
+}
+
+model Order {
+  id                     String            @id @default(uuid())
+  status                 OrderStatusEnum
+  total                  Float
+  txnRef                 String?           @unique(map: "txnRef_UNIQUE")
+  discount               Float             @default(0)
+  user                   User              @relation(fields: [userId], references: [id])
+  userId                 String
+  course                 Course?           @relation(fields: [courseId], references: [id])
+  courseId               String?
+  vnpData                Json?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime?         @updatedAt
+  deletedAt              DateTime?
+  taxCode                String?
+  address                String?
+  name                   String?
+  exportTaxStatus        ExportOrderStatus @default(NO_EXPORT)
+  taxType                TaxType?          @default(PERSONAL)
+  vnpayVerifyResponseIPN Json?
+
+  @@index([userId])
+}
+
+model Media {
+  id            String    @id @default(uuid())
+  mediaType     MediaType
+  types         String    @default("DEFAULT")
+  mediaUrl      String
+  lessonId      String?
+  courseId      String?
+  seminarId     String?
+  avatarId      String?
+  lesson        Lesson?   @relation(fields: [lessonId], references: [id])
+  course        Course?   @relation(fields: [courseId], references: [id])
+  seminar       Seminar?  @relation(fields: [seminarId], references: [id])
+  avatarUser    User?     @relation("AvatarUserRelation", fields: [avatarId], references: [id], map: "Media_Avatar_fkey")
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  createdByUser User?     @relation("MediaCreatedByRelation", fields: [createdBy], references: [id], map: "Media_CreatedBy_fkey")
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  updatedByUser User?     @relation("MediaUpdatedByRelation", fields: [updatedBy], references: [id], map: "Media_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?     @relation("MediaDeletedByRelation", fields: [deletedBy], references: [id], map: "Media_DeletedBy_fkey")
+}
+
+model TestHistory {
+  id            String    @id @default(uuid())
+  userId        String
+  courseId      String
+  user          User      @relation(fields: [userId], references: [id])
+  course        Course    @relation(fields: [courseId], references: [id])
+  score         Float
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  createdByUser User?     @relation("TestHistoryCreatedByRelation", fields: [createdBy], references: [id], map: "TestHistory_CreatedBy_fkey")
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  updatedByUser User?     @relation("TestHistoryUpdatedByRelation", fields: [updatedBy], references: [id], map: "TestHistory_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?     @relation("TestHistoryDeletedByRelation", fields: [deletedBy], references: [id], map: "TestHistory_DeletedBy_fkey")
+}
+
+model Category {
+  id                    String       @id @default(uuid())
+  name                  String
+  normalizedName        String?
+  normalizedDescription String?
+  status                Boolean      @default(true)
+  parentId              String?
+  description           String?
+  parent                Category?    @relation("CategoryParent", fields: [parentId], references: [id])
+  children              Category[]   @relation("CategoryParent")
+  types                 CategoryType @default(COURSE)
+  createdAt             DateTime     @default(now())
+  createdBy             String?
+  createdByUser         User?        @relation("CreatedByRelation", fields: [createdBy], references: [id], map: "Category_CreatedBy_fkey")
+  updatedAt             DateTime     @updatedAt
+  updatedBy             String?
+  updatedByUser         User?        @relation("UpdatedByRelation", fields: [updatedBy], references: [id], map: "Category_UpdatedBy_fkey")
+  deletedAt             DateTime?
+  deletedBy             String?
+  deletedByUser         User?        @relation("DeletedByRelation", fields: [deletedBy], references: [id], map: "Category_DeletedBy_fkey")
+  Course                Course[]
+  Seminar               Seminar[]
+
+  @@index([normalizedName])
+  @@index([normalizedDescription])
+}
+
+model Rating {
+  id            String    @id @default(uuid())
+  rate          Int       @default(5)
+  userId        String
+  courseId      String?
+  seminarId     String?
+  user          User      @relation(fields: [userId], references: [id])
+  course        Course?   @relation(fields: [courseId], references: [id])
+  seminar       Seminar?  @relation(fields: [seminarId], references: [id])
+  createdAt     DateTime  @default(now())
+  createdBy     String?
+  createdByUser User?     @relation("RatingCreatedByRelation", fields: [createdBy], references: [id], map: "Rating_CreatedBy_fkey")
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+  updatedByUser User?     @relation("RatingUpdatedByRelation", fields: [updatedBy], references: [id], map: "Rating_UpdatedBy_fkey")
+  deletedAt     DateTime?
+  deletedBy     String?
+  deletedByUser User?     @relation("RatingDeletedByRelation", fields: [deletedBy], references: [id], map: "Rating_DeletedBy_fkey")
+  expertId      String?
+  expert        User?     @relation("RatingExpert", fields: [expertId], references: [id], map: "Rating_Expert_fkey")
+}
+
+enum ParticipantStatus {
+  JOINED
+  LEFT
+  KICKED
+  BANNED
+}
+
+enum MediaType {
+  VIDEOS
+  IMAGES
+  AUDIOS
+  DOCUMENTS
+  SUBTITLES
+  MARKDOWNS
+}
+
+enum QuestionType {
+  RADIO
+  CHECKBOX
+}
+
+enum RegistrationType {
+  COURSE
+  SEMINAR
+}
+
+enum CategoryType {
+  COURSE
+  SEMINAR
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  EXPERT
+}
+
+enum UserStatus {
+  UNVERIFY
+  BLOCK
+  ACTIVE
+}
+
+enum CourseProgresStatus {
+  COMPLETED
+  INPROGRESS
+  NOTSTARTED
+}
+
+enum RegistrationStatus {
+  NOTYETPAID
+  PAID
+  BLOCK
+}
+
+enum OrderStatusEnum {
+  PENDING
+  PAID
+  CANCEL
+}
+
+enum CourseUserStatus {
+  PROCESSING
+  COMPLETED
+  CANCEL
+}
+
+enum ProcessStatusCertificate {
+  PENDING
+  SEND
+}
+
+enum ExportOrderStatus {
+  NO_EXPORT
+  PENDING
+  EXPORTED
+}
+
+enum TaxType {
+  PERSONAL
+  COMPANY
+}

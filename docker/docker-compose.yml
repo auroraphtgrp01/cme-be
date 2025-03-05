@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  tracy-be:
+    build:
+      context: .
+    container_name: tracy-be
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres-5439-tracy:5432/tracy?schema=public
+      BACKEND_PORT: 3333
+      REDIS_HOST: redis-6444-tracy
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis
+      CAPTCHA_SOLVER_DOMAIN: http://captcha-service:1234
+    ports:
+      - '3333:3333'
